@@ -1,0 +1,27 @@
+{
+  "name": "projects/560805672913/locations/europe-west3/instances/3e220ed9-5c8d-42db-a940-1880ad360566/rules/ru_ee219a84-884e-4830-8268-4e46e65729a9",
+  "revisionId": "v_1748279540_455103000",
+  "displayName": "high_medium_severity_alerts",
+  "text": "\nrule high_medium_severity_alerts {\n  meta:\n    author = \"TCS MDR practice\"\n    description = \"Mandiant DTM high and medium severity\"\n    severity = \"High\"\n  events:\n    $dtm.extracted.fields[\"alert_type\"] != \"Domain Discovery\"\n    $dtm.extracted.fields[\"severity\"] = \"high\" OR $dtm.extracted.fields[\"severity\"] = \"medium\"\n  outcome:\n    $alert_type = $dtm.extracted.fields[\"alert_type\"]\n    $log_type = $dtm.metadata.log_type\n    $confidence_score = $dtm.extracted.fields[\"confidence\"]\n    $action = array($dtm.security_result.action)\n    $discovered_domain = array($dtm.extracted.fields[\"topics[0].value\"])\n  condition:\n    $dtm\n}\n",
+  "author": "TCS MDR practice",
+  "severity": {
+    "displayName": "High"
+  },
+  "metadata": {
+    "description": "Mandiant DTM high and medium severity"
+  },
+  "createTime": "2025-05-26T17:12:20.455103Z",
+  "revisionCreateTime": "2025-05-26T17:12:20.455103Z",
+  "compilationState": "SUCCEEDED",
+  "type": "SINGLE_EVENT",
+  "allowedRunFrequencies": [
+    "LIVE",
+    "HOURLY",
+    "DAILY"
+  ],
+  "etag": "CPTB0sEGEJikgdkB",
+  "nearRealTimeLiveRuleEligible": true,
+  "inputsUsed": {
+    "usesUdm": true
+  }
+}
