@@ -1,0 +1,24 @@
+{
+  "name": "projects/560805672913/locations/europe-west3/instances/3e220ed9-5c8d-42db-a940-1880ad360566/rules/ru_b574f060-93de-4064-9dfd-d7f3c6fac611",
+  "revisionId": "v_1755184983_762847000",
+  "displayName": "FIN7_APT",
+  "text": "\nrule FIN7_APT {\nmeta:\n  author = \"Google SecOps Gemini\"\n  description = \"Detects potential FIN7 APT activity based on process launches of powershell.exe or cmd.exe with command lines containing Invoke-Expression or IEX and System.Net.WebClient or New-Object System.Net.WebClient. This rule identifies suspicious command-line activity commonly associated with FIN7 tactics, techniques, and procedures (TTPs).\"\nevents:\n  $e.metadata.product_name = \"Windows\"\n  $e.metadata.event_type = \"PROCESS_LAUNCH\"\n  (\n    re.regex($e.principal.process.file.full_path, `powershell\\.exe$`) nocase OR\n    re.regex($e.principal.process.file.full_path, `cmd\\.exe$`) nocase\n  )\n  (\n    re.regex($e.target.process.command_line, `Invoke-Expression`) nocase OR\n    re.regex($e.target.process.command_line, `IEX`) nocase\n  )\n  (\n    re.regex($e.target.process.command_line, `System\\.Net\\.WebClient`) nocase OR\n    re.regex($e.target.process.command_line, `New-Object System\\.Net\\.WebClient`) nocase\n  )\noutcome:\n  $principal_process_file_path = $e.principal.process.file.full_path\n  $target_process_command_line = $e.target.process.command_line\n  $principal_user_id = $e.principal.user.userid\n  $principal_hostname = $e.principal.hostname\ncondition:\n  $e\n}\n",
+  "author": "Google SecOps Gemini",
+  "metadata": {
+    "description": "Detects potential FIN7 APT activity based on process launches of powershell.exe or cmd.exe with command lines containing Invoke-Expression or IEX and System.Net.WebClient or New-Object System.Net.WebClient. This rule identifies suspicious command-line activity commonly associated with FIN7 tactics, techniques, and procedures (TTPs)."
+  },
+  "createTime": "2025-08-14T15:23:03.762847Z",
+  "revisionCreateTime": "2025-08-14T15:23:03.762847Z",
+  "compilationState": "SUCCEEDED",
+  "type": "SINGLE_EVENT",
+  "allowedRunFrequencies": [
+    "LIVE",
+    "HOURLY",
+    "DAILY"
+  ],
+  "etag": "CNf+98QGEJi+4OsC",
+  "nearRealTimeLiveRuleEligible": true,
+  "inputsUsed": {
+    "usesUdm": true
+  }
+}
